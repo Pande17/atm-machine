@@ -34,3 +34,13 @@ func ConnectMongoDB() error {
 
 	return nil
 }
+
+func ConnectCollection(collectionName string) *mongo.Collection {
+	if Mongoclient == nil {
+		if err := ConnectMongoDB(); err != nil {
+			log.Fatal("can't connect to MongoDB!")
+		}
+	}
+
+	return Mongoclient.Database("atm-machine").Collection(collectionName)
+}
