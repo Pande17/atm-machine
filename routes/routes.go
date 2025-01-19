@@ -1,6 +1,10 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"atm-machine/handler/rest"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func Routes(r *fiber.App) {
 	api := r.Group("/api")
@@ -9,7 +13,8 @@ func Routes(r *fiber.App) {
 		return c.JSON(fiber.Map{
 			"message": "TES",
 		})
-	}) 
+	})
 
-	
+	api.Post("/users", rest.RegisterAccount)
+
 }
