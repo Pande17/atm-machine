@@ -7,8 +7,8 @@ import (
 )
 
 type Base struct {
-	ID        primitive.ObjectID
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
+	ID        primitive.ObjectID `json:"_id" bson:"_id, omitempty"`
+	CreatedAt time.Time          `json:"createdAt" bson:"createdAt, omitempty"`
+	UpdatedAt time.Time          `json:"updatedAt" bson:"updatedAt, omitempty"`
+	DeletedAt *time.Time         `json:"deletedAt" bson:"deletedAt, omitempty"`
 }
