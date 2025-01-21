@@ -5,5 +5,5 @@ type UserAccount struct {
 	Username string  `json:"username" bson:"username"`
 	Password string  `json:"password" bson:"password"`
 	Balance  float32 `json:"balance" bson:"balance"`
-	Base     `bson:", inline"`
+	Base     `bson:",inline"`
 }
