@@ -66,3 +66,40 @@ func RegisterAccount(c *fiber.Ctx) error {
 
 	return OK(c, "Account created successfully!", users)
 }
+
+func DeleteAccount(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	userId, err := primitive.ObjectIDFromHex(idParam)
+	if err != nil {
+		return BadRequest(c, "Account not found!", "find by id")
+	}
+
+	usersCollection := database.ConnectCollection("users")
+	filter := bson.M{"_id": userId}
+
+	var userAccount bson.M
+	err = usersCollection.FindOne(context.TODO(), filter).Decode(&userAccount)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return NotFound(c, "Account not found!", "find in collection")
+		}
+		return Conflict(c, "Failed to get account details! Please try again...", "conflict find in colecction")
+	}
+
+	if deletedAt, ok := userAccount["deleted_at"]; ok && deletedAt != nil {
+		return AlreadyDeleted(c, "This account already deleted!", "checking deleted account", deletedAt)
+	}
+
+	update := bson.M{"$set": bson.M{"deleted_at": time.Now()}}
+	result, err := usersCollection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return Conflict(c, "Failed to delete this account! Try again...", "update deleted_at line in DB")
+	}
+
+	if result.MatchedCount == 0 {
+		return NotFound(c, "Can not find this account!", "failed find account data")
+	}
+
+	return OK(c, "Account successfully deleted!", userId)
+
+}
