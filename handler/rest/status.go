@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func jsonResponse(c *fiber.Ctx, statusCode int, message string, errLocate string, data any, deletedAt string) error {
+func jsonResponse(c *fiber.Ctx, statusCode int, message string, errLocate string, data any, deletedAt any) error {
 	response := fiber.Map{
 		"status":    statusCode,
 		"message":   message,
@@ -21,7 +21,7 @@ func jsonResponse(c *fiber.Ctx, statusCode int, message string, errLocate string
 		response["error_location"] = errLocate
 	}
 
-	if deletedAt != "" {
+	if deletedAt != nil {
 		response["deletedAt"] = deletedAt
 	}
 
@@ -42,4 +42,12 @@ func Conflict(c *fiber.Ctx, message string, errLocate string) error {
 
 func Unauthorized(c *fiber.Ctx, message string, errLocate string) error {
 	return jsonResponse(c, fiber.StatusUnauthorized, message, errLocate, nil, "")
+}
+
+func NotFound(c *fiber.Ctx, message string, errLocate string) error {
+	return jsonResponse(c, fiber.StatusNotFound, message, errLocate, nil, "")
+}
+
+func AlreadyDeleted(c *fiber.Ctx, message string, errLocate string, deletedAt any) error {
+	return jsonResponse(c, fiber.StatusNotFound, message, errLocate, nil, deletedAt)
 }
