@@ -29,23 +29,23 @@ func jsonResponse(c *fiber.Ctx, statusCode int, message string, errLocate string
 }
 
 func OK(c *fiber.Ctx, message string, data any) error {
-	return jsonResponse(c, fiber.StatusOK, message, "", data, "")
+	return jsonResponse(c, fiber.StatusOK, message, "", data, nil)
 }
 
 func BadRequest(c *fiber.Ctx, message string, errLocate string) error {
-	return jsonResponse(c, fiber.StatusOK, message, errLocate, nil, "")
+	return jsonResponse(c, fiber.StatusOK, message, errLocate, nil, nil)
 }
 
 func Conflict(c *fiber.Ctx, message string, errLocate string) error {
-	return jsonResponse(c, fiber.StatusConflict, message, errLocate, nil, "")
+	return jsonResponse(c, fiber.StatusConflict, message, errLocate, nil, nil)
 }
 
 func Unauthorized(c *fiber.Ctx, message string, errLocate string) error {
-	return jsonResponse(c, fiber.StatusUnauthorized, message, errLocate, nil, "")
+	return jsonResponse(c, fiber.StatusUnauthorized, message, errLocate, nil, nil)
 }
 
 func NotFound(c *fiber.Ctx, message string, errLocate string) error {
-	return jsonResponse(c, fiber.StatusNotFound, message, errLocate, nil, "")
+	return jsonResponse(c, fiber.StatusNotFound, message, errLocate, nil, nil)
 }
 
 func AlreadyDeleted(c *fiber.Ctx, message string, errLocate string, deletedAt any) error {
