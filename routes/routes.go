@@ -15,6 +15,7 @@ func Routes(r *fiber.App) {
 		})
 	})
 
-	api.Post("/users", rest.RegisterAccount)
+	api.Post("/account/register", rest.RegisterAccount)
+	api.Delete("/account/:id", rest.DeleteAccount)
 
 }
