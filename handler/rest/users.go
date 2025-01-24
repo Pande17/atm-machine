@@ -86,11 +86,11 @@ func DeleteAccount(c *fiber.Ctx) error {
 		return Conflict(c, "Failed to get account details! Please try again...", "conflict find in colecction")
 	}
 
-	if deletedAt, ok := userAccount["deleted_at"]; ok && deletedAt != nil {
+	if deletedAt, ok := userAccount["deletedAt"]; ok && deletedAt != nil {
 		return AlreadyDeleted(c, "This account already deleted!", "checking deleted account", deletedAt)
 	}
 
-	update := bson.M{"$set": bson.M{"deleted_at": time.Now()}}
+	update := bson.M{"$set": bson.M{"deletedAt": time.Now()}}
 	result, err := usersCollection.UpdateOne(context.TODO(), filter, update)
 	if err != nil {
 		return Conflict(c, "Failed to delete this account! Try again...", "update deleted_at line in DB")
